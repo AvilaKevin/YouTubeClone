@@ -7,7 +7,10 @@ const Container = styled.div`
 
 const Menu = () => {
     return (
-        <Container>Menu</Container>
+        <Container>
+            Menu
+            <div>Esto es una prueba</div>
+        </Container>
     )
 }
 
