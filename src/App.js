@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import Menu from "./components/Menu";
 import Navbar from "./components/Navbar";
-import { darkTheme, LightTheme } from "./Utils/Theme";
+import { darkTheme, lightTheme } from "./Utils/Theme";
 
 
 
@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 function App() {
   const [darkMode, setDarkMode] = useState(true);
   return (
-    <ThemeProvider theme={darkMode ? darkTheme : LightTheme}>
+    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
 
       <Container>
         <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
