@@ -3,20 +3,24 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Container = styled.div`
-    width: 360px;
-    margin-bottom: 45px;
+    width: ${(props) => props.type !== "sm" && "360px"};
+    margin-bottom: ${(props) => props.type === "sm" ? "10px" : "45px"};
     cursor: pointer;
+    display: ${(props) => props.type === "sm" && "flex"};
+    gap: 10px;
 `;
 const Image = styled.img`
     width: 100%;
-    height: 202px;
+    height: ${(props) => props.type === "sm" ? "120px" : "202px"};
     background-color: #999;
+    flex: 1;
 `;
 
 const Details = styled.div`
     display: flex;
-    margin-top: 16px;
+    margin-top: ${(props) => props.type !== "sm" && "16px"};
     gap: 12px;
+    flex: 1;
 `;
 
 const CahnnelImage = styled.img`
@@ -24,6 +28,7 @@ const CahnnelImage = styled.img`
     height: 36px;
     border-radius: 50%;
     background-color: #999;
+    display: ${(props) => props.type === "sm" && "none"};
 `;
 
 const Texts = styled.div``;
@@ -48,13 +53,13 @@ const Info = styled.div`
 `;
 
 
-const Card = () => {
+const Card = ({ type }) => {
     return (
         <Link to="/video/test" style={{ textDecoration: "none" }}>
-            <Container>
-                <Image src="https://storage.googleapis.com/afs-prod/media/029369b4c5a14f3cb5b02866168cdfef/3000.jpeg" />
-                <Details>
-                    <CahnnelImage src='https://avatars.githubusercontent.com/u/70970550?v=4' />
+            <Container type={type}>
+                <Image type={type} src="https://storage.googleapis.com/afs-prod/media/029369b4c5a14f3cb5b02866168cdfef/3000.jpeg" />
+                <Details type={type} >
+                    <CahnnelImage type={type} src='https://avatars.githubusercontent.com/u/70970550?v=4' />
                     <Texts>
                         <Title>Test Video</Title>
                         <ChannelName>AvilaKevin</ChannelName>
