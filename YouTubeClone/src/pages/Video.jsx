@@ -169,7 +169,7 @@ const Video = () => {
 
     const handleDislike = async () => {
         await axios.put(`/users/dislike/${currentVideo._id}`);
-        dispatch(dislike(currentUser._id))
+        dispatch(dislike(currentUser._id));
     };
 
     const handleSub = async () => {
@@ -211,7 +211,7 @@ const Video = () => {
                             )}{" "}
                             Dislike
                         </Button>
-                        <Button>
+                        <Button onClick={() => console.log("click")}>
                             <ReplyOutlinedIcon />Share
                         </Button>
                         <Button>

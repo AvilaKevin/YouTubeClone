@@ -1,5 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../redux/userSlice';
 
 // Icons
 import YourVideosLogo from '../img/YouTubeLogo.png'
@@ -19,8 +22,9 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightnessOutlined";
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import LogoutIcon from '@mui/icons-material/Logout';
+
+
 
 const Container = styled.div`
     flex: 1;
@@ -66,6 +70,9 @@ const Hr = styled.hr`
 `;
 
 const Login = styled.div``;
+
+const Logout = styled.div``;
+
 const Button = styled.button`
     padding: 5px 15px;
     background-color: transparent;
@@ -89,6 +96,12 @@ const Title = styled.h2`
 
 const Menu = ({ darkMode, setDarkMode }) => {
     const { currentUser } = useSelector((state) => state.user);
+    // Se inicializa nuestra funcion dispatch para poder hacer uso de los estados de nuestro store
+    const dispatch = useDispatch();
+
+    const handleLogOut = () => {
+        dispatch(logout());
+    };
 
     return (
         <Container>
@@ -186,6 +199,18 @@ const Menu = ({ darkMode, setDarkMode }) => {
                     <SettingsBrightnessOutlinedIcon />
                     {darkMode ? "Light" : "Dark"} Mode
                 </Item>
+
+
+
+                {currentUser &&
+                    <><Logout>
+                        <Hr />
+                        <Button onClick={handleLogOut} >
+                            <LogoutIcon />
+                            Sign out
+                        </Button>
+                    </Logout></>
+                }
 
             </Wrapper>
         </Container>
