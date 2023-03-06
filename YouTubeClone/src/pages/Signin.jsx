@@ -66,14 +66,26 @@ const Links = styled.div`
     margin-left: 50px;
 `;
 
-const Link = styled.span`
+const Link = styled.a`
     margin-left: 30px;
+`;
+
+const DivError = styled.div`
+    background: #871919;
+    padding: 10px;
+    border-radius: 3px;
+`;
+
+const MsError = styled.p`
+    font-size: 14px;
+    font-weight: 300;
 `;
 
 const Signin = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [logError, setlogError] = useState(false);
     // Se inicializa nuestra funcion dispatch para poder hacer uso de los estados de nuestro store
     const dispatch = useDispatch()
 
@@ -85,10 +97,11 @@ const Signin = () => {
         dispatch(loginStart());
         try {
             // Se envia la informacion capturada a la api
-            const res = await axios.post("/auth/signin", { name, password })
+            const res = await axios.post("/auth/signin", { name, password });
             dispatch(loginSuccess(res.data));
         } catch (err) {
-            dispatch(loginFailure)
+            dispatch(loginFailure);
+            setlogError(true);
         };
     };
 
@@ -120,11 +133,18 @@ const Signin = () => {
                 <SubTitle>to continue to YourVideos</SubTitle>
                 <Input placeholder='username' onChange={e => setName(e.target.value)} />
                 <Input type="password" placeholder='password' onChange={e => setPassword(e.target.value)} />
+
+                {logError &&
+                    <DivError>
+                        <MsError>username or Password invalid</MsError>
+                    </DivError>
+                }
+
                 <Button onClick={handleLogin} >Sign in</Button>
-                <Title>or</Title>
+                <SubTitle>or</SubTitle>
                 <Button onClick={signInWithGoogle}>Signin with Google</Button>
 
-                <Title>or</Title>
+                <Title>Sign up</Title>
                 <Input placeholder='username' onChange={e => setName(e.target.value)} />
                 <Input placeholder='email' onChange={e => setEmail(e.target.value)} />
                 <Input type="password" placeholder='password' onChange={e => setPassword(e.target.value)} />
@@ -134,9 +154,16 @@ const Signin = () => {
             <More>
                 English(USA)
                 <Links>
-                    <Link>Help</Link>
-                    <Link>Privacy</Link>
-                    <Link>Terms</Link>
+                    <Link href='https://support.google.com/accounts?hl=es-419&visit_id=638137374374321459-3417479252&rd=2&p=account_iph#topic=3382296'
+                        style={{ textDecoration: "none", color: "inherit" }}>
+                        Help
+                    </Link>
+                    <Link href='https://policies.google.com/privacy?gl=CO&hl=es-419'
+                        style={{ textDecoration: "none", color: "inherit" }}>
+                        Privacy</Link>
+                    <Link href='https://policies.google.com/terms?gl=CO&hl=es-419'
+                        style={{ textDecoration: "none", color: "inherit" }}>
+                        Terms</Link>
                 </Links>
             </More>
         </Container>
