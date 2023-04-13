@@ -42,7 +42,7 @@ const Input = styled.input`
     padding: 10px;
     background-color: transparent;
     width: 100%;
-    color: white;
+    color: ${({ theme }) => theme.text};
 `;
 
 const Button = styled.button`
@@ -79,6 +79,12 @@ const DivError = styled.div`
 const MsError = styled.p`
     font-size: 14px;
     font-weight: 300;
+`;
+
+const Hr = styled.hr`
+    width: 100%;
+    margin: 15px 0px;
+    border: 0.5px solid ${({ theme }) => theme.soft};
 `;
 
 const Signin = () => {
@@ -143,6 +149,8 @@ const Signin = () => {
                 <Button onClick={handleLogin} >Sign in</Button>
                 <SubTitle>or</SubTitle>
                 <Button onClick={signInWithGoogle}>Signin with Google</Button>
+
+                <Hr />
 
                 <Title>Sign up</Title>
                 <Input placeholder='username' onChange={e => setName(e.target.value)} />

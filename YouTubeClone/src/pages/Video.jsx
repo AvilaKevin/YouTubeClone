@@ -6,7 +6,7 @@ import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import Comments from "../components/Comments";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import { dislike, fetchSuccess, like } from "../redux/videoSlice";
 import { format } from "timeago.js";
@@ -117,6 +117,13 @@ const VideoFrame = styled.video`
     max-height: 720px;
     width: 100%;
     object-fit: cover;
+`;
+
+const StyledLink = styled(Link)`
+    width: 100%;
+    gap: 10px;
+    text-decoration: none;
+    color: white;
 `;
 
 
@@ -231,12 +238,22 @@ const Video = () => {
                             </Description>
                         </ChannelDetail>
                     </ChannelInfo>
-                    <Subscribe onClick={handleSub}>
-                        {/* Si dentro de la propiedad subscribedUsers de nuestro estado currentUser esta el id del canal, entonces: */}
-                        {currentUser.subscribedUsers?.includes(channel._id)
-                            ? "SUBSCRIBED"
-                            : "SUBSCRIBE"}
-                    </Subscribe>
+
+                    {currentUser ?
+                        <Subscribe onClick={handleSub}>
+                            {/* Si dentro de la propiedad subscribedUsers de nuestro estado currentUser esta el id del canal, entonces: */}
+                            {currentUser.subscribedUsers?.includes(channel._id)
+                                ? "SUBSCRIBED"
+                                : "SUBSCRIBE"}
+                        </Subscribe>
+                        :
+                        <Subscribe>
+                            <StyledLink to="/Signin">
+                                SUBSCRIBE
+                            </StyledLink>
+                        </Subscribe>
+                    }
+
                 </Channel>
                 <Hr />
                 <Comments videoId={currentVideo._id} />

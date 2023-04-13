@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Comment from './Comment'
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
 
@@ -29,6 +30,18 @@ const Input = styled.input`
     padding: 5px;
     width: 100%;
     color: ${({ theme }) => theme.text};
+`;
+
+const Prueba = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 10px;
+`;
+
+const StyledLink = styled(Link)`
+    width: 100%;
+    gap: 10px;
+    text-decoration: none;
 `;
 
 function Comments({ videoId }) {
@@ -58,13 +71,25 @@ function Comments({ videoId }) {
     return (
         <Container>
             <NewComment>
-                <Avatar src={currentUser.img} />
-                <Input placeholder='Add a comment...' />
+                {currentUser ?
+                    <>
+                        <Avatar src={currentUser.img} />
+                        <Input placeholder='Add a comment...' />
+                    </>
+                    :
+                    <StyledLink to="/Signin">
+                        <Prueba>
+                            <Avatar src={"https://yt3.ggpht.com/a/default-user=s48-c-k-c0x00ffffff-no-rj"} />
+                            <Input placeholder='Add a comment...' />
+                        </Prueba>
+                    </StyledLink>}
             </NewComment>
-            {comments.map(comment => (
-                <Comment key={comment._id} comment={comment} />
-            ))}
-        </Container>
+            {
+                comments.map(comment => (
+                    <Comment key={comment._id} comment={comment} />
+                ))
+            }
+        </Container >
     )
 };
 
