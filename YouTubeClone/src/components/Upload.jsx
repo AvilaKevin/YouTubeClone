@@ -22,6 +22,7 @@ const Container = styled.div`
 const Wrapper = styled.div`
   width: 600px;
   height: 600px;
+  border-radius: 12px;
   background-color: ${({ theme }) => theme.bgLighter};
   color: ${({ theme }) => theme.text};
   padding: 20px;
@@ -55,7 +56,7 @@ const Desc = styled.textarea`
     border-radius: 3px;
     padding: 10px;
     background-color: transparent;
-`
+`;
 const Button = styled.button`
     border-radius: 3px;
     border: none;

@@ -14,6 +14,7 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { subscription } from "../redux/userSlice";
 import Recommendation from "../components/Recommendation";
+import Share from "../components/Share.jsx";
 
 
 const Container = styled.div`
@@ -142,6 +143,9 @@ const Video = () => {
     // Se crean los estados para almacenar la informacion que se va a extraer del servidor
     const [channel, setChannel] = useState({});
 
+    // Se crea un estado para la apertura del modal del boton share
+    const [isSharing, setIsSharing] = useState(false);
+
 
     // El useEffect se ejecutara cada vez que se cambie de id de video
     useEffect(() => {
@@ -191,76 +195,84 @@ const Video = () => {
     // Si no se reconoce ninguna propiedad de currentVideo como videoUrl u otra debo borrar el render y ejecutar el clg
     // console.log(currentVideo.videoUrl)
 
+
     return (
-        <Container>
-            <Content>
-                <VideoWrapper>
-                    <VideoFrame src={currentVideo.videoUrl} controls />
-                </VideoWrapper>
-                <Title>{currentVideo.title}</Title>
-                <Details>
-                    <Info>{currentVideo.views} views  {format(currentVideo.createdAt)}</Info>
-                    <Buttons>
-                        <Button onClick={handleLike}>
-                            {/* si en los likes esta id usuario, entonces:*/}
-                            {currentVideo.likes?.includes(currentUser?._id) ? (
-                                <ThumbUpIcon />
-                            ) : (
-                                <ThumbUpOutlinedIcon />
-                            )}{" "}
-                            {currentVideo.likes?.length}
-                        </Button>
-                        <Button onClick={handleDislike}>
-                            {currentVideo.dislikes?.includes(currentUser?._id) ? (
-                                <ThumbDownIcon />
-                            ) : (
-                                <ThumbDownOffAltOutlinedIcon />
-                            )}{" "}
-                            Dislike
-                        </Button>
-                        <Button onClick={() => console.log("click")}>
-                            <ReplyOutlinedIcon />Share
-                        </Button>
-                        <Button>
-                            <AddTaskOutlinedIcon /> Save
-                        </Button>
-                    </Buttons>
-                </Details>
-                <Hr />
-                <Channel>
-                    <ChannelInfo>
-                        <Image src={channel.img} />
-                        <ChannelDetail>
-                            <ChannelName>{channel.name}</ChannelName>
-                            <ChannelCounter>{channel.subscribers} subscribers</ChannelCounter>
-                            <Description>
-                                {currentVideo.desc}
-                            </Description>
-                        </ChannelDetail>
-                    </ChannelInfo>
+        // Se creo un contenedor padre de este modo para poder renderizar el modal del boton share
+        <>
+            <Container>
+                <Content>
+                    <VideoWrapper>
+                        <VideoFrame src={currentVideo.videoUrl} controls />
+                    </VideoWrapper>
+                    <Title>{currentVideo.title}</Title>
+                    <Details>
+                        <Info>{currentVideo.views} views  {format(currentVideo.createdAt)}</Info>
+                        <Buttons>
+                            <Button onClick={handleLike}>
+                                {/* si en los likes esta id usuario, entonces:*/}
+                                {currentVideo.likes?.includes(currentUser?._id) ? (
+                                    <ThumbUpIcon />
+                                ) : (
+                                    <ThumbUpOutlinedIcon />
+                                )}{" "}
+                                {currentVideo.likes?.length}
+                            </Button>
+                            <Button onClick={handleDislike}>
+                                {currentVideo.dislikes?.includes(currentUser?._id) ? (
+                                    <ThumbDownIcon />
+                                ) : (
+                                    <ThumbDownOffAltOutlinedIcon />
+                                )}{" "}
+                                Dislike
+                            </Button>
+                            {/* Cuando se de en share se cambiara el estado que activa el modal a true*/}
+                            <Button onClick={() => setIsSharing(true)}>
+                                <ReplyOutlinedIcon />Share
+                            </Button>
+                            <Button>
+                                <AddTaskOutlinedIcon /> Save
+                            </Button>
+                        </Buttons>
+                    </Details>
+                    <Hr />
+                    <Channel>
+                        <ChannelInfo>
+                            <Image src={channel.img} />
+                            <ChannelDetail>
+                                <ChannelName>{channel.name}</ChannelName>
+                                <ChannelCounter>{channel.subscribers} subscribers</ChannelCounter>
+                                <Description>
+                                    {currentVideo.desc}
+                                </Description>
+                            </ChannelDetail>
+                        </ChannelInfo>
 
-                    {currentUser ?
-                        <Subscribe onClick={handleSub}>
-                            {/* Si dentro de la propiedad subscribedUsers de nuestro estado currentUser esta el id del canal, entonces: */}
-                            {currentUser.subscribedUsers?.includes(channel._id)
-                                ? "SUBSCRIBED"
-                                : "SUBSCRIBE"}
-                        </Subscribe>
-                        :
-                        <Subscribe>
-                            <StyledLink to="/Signin">
-                                SUBSCRIBE
-                            </StyledLink>
-                        </Subscribe>
-                    }
+                        {currentUser ?
+                            <Subscribe onClick={handleSub}>
+                                {/* Si dentro de la propiedad subscribedUsers de nuestro estado currentUser esta el id del canal, entonces: */}
+                                {currentUser.subscribedUsers?.includes(channel._id)
+                                    ? "SUBSCRIBED"
+                                    : "SUBSCRIBE"}
+                            </Subscribe>
+                            :
+                            <Subscribe>
+                                <StyledLink to="/Signin">
+                                    SUBSCRIBE
+                                </StyledLink>
+                            </Subscribe>
+                        }
 
-                </Channel>
-                <Hr />
-                <Comments videoId={currentVideo._id} />
-            </Content>
-            <Recommendation tags={currentVideo.tags} />
+                    </Channel>
+                    <Hr />
+                    <Comments videoId={currentVideo._id} />
+                </Content>
+                <Recommendation tags={currentVideo.tags} />
 
-        </Container>
+            </Container>
+            {/* Se situa en esta linea el modal del boton share ya que es un componente que se superpone en video */}
+            {/* Se pasa como prop el estado del modal para poder cerrarlo dentro del componente */}
+            {isSharing && <Share setIsSharing={setIsSharing} />}
+        </>
     )
 };
 
