@@ -184,7 +184,7 @@ function Comments({ videoId }) {
             }
             {
                 comments.map(comment => (
-                    <Comment key={comment._id} comment={comment} />
+                    <Comment key={comment._id} comment={comment} fetchComments={fetchComments} />
                 ))
             }
         </Container>

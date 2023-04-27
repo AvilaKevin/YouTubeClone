@@ -80,7 +80,7 @@ const Options = styled.div`
     }
 `;
 
-function Comment({ comment }) {
+function Comment({ comment, fetchComments }) {
     // Se crean los estados para almacenar la informacion que se va a extraer del servidor
     const [channel, setChannel] = useState({});
 
@@ -111,6 +111,7 @@ function Comment({ comment }) {
     // Borra el comentario
     const handleDelete = async () => {
         await axios.delete(`/comments/${comment._id}`);
+        fetchComments()
     };
 
     return (
