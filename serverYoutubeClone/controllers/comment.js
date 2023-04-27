@@ -1,3 +1,4 @@
+import { ConsoleMessage } from "puppeteer";
 import { createError } from "../error.js";
 import Comment from "../models/Comments.js";
 import Video from "../models/Video.js";
@@ -14,23 +15,39 @@ export const addComment = async (req, res, next) => {
     };
 };
 
+// export const deleteComment = async (req, res, next) => {
+//     try {
+//         console.log(res.user.);
+//         // Se realiza una consulta para buscar el comentario
+//         const comment = await Comment.findById(res.params.id);
+//         // Se realiza una consulta para buscar el video
+//         const video = await Video.findById(res.params.id);
+//         // si el id de la sesion es el mismo que el del comentario o video se ejecuta el proceso de eliminacion
+//         if (req.user.id === comment.userId || req.user.id === video.userId) {
+
+//             await Comment.findByIdAndDelete(req.params.id);
+//             res.status(200).json("The comment has been deleted");
+//         } else {
+//             return next(createError(403, "You can delete only your comment!"));
+//         };
+//     } catch (err) {
+//         next(err)
+//     };
+// };
+
 export const deleteComment = async (req, res, next) => {
     try {
-        // Se realiza una consulta para buscar el comentario
-        const comment = await Comment.findById(res.params.id);
-        // Se realiza una consulta para buscar el video
-        const video = await Video.findById(res.params.id);
-        // si el id de la sesion es el mismo que el del comentario o video se ejecuta el proceso de eliminacion
-        if (req.user.id === comment.userId || req.user.id === video.userid) {
-
+        const comment = await Comment.findById(req.params.id);
+        const video = await Video.findById(req.params.id);
+        if (req.user.id === comment.userId || req.user.id === video.userId) {
             await Comment.findByIdAndDelete(req.params.id);
-            res.status(200).json("The comment has been deleted");
+            res.status(200).json("The comment has been deleted.");
         } else {
-            return next(createError(403, "You can delete only your comment!"));
-        };
+            return next(createError(403, "You can delete ony your comment!"));
+        }
     } catch (err) {
-        next(err)
-    };
+        next(err);
+    }
 };
 
 export const getComments = async (req, res, next) => {

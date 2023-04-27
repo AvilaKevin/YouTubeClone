@@ -30,7 +30,7 @@ const Input = styled.input`
     padding: 5px;
     width: 100%;
     color: ${({ theme }) => theme.text};
-
+    
     :focus{
         transition: 0.1s;
         border-bottom: 2px solid white;
@@ -98,6 +98,7 @@ const BCancel = styled.button`
 function Comments({ videoId }) {
     // Para acceder a las propiedades de nuestro estado, se hace uso de useSelector, en este caso se esta accediendo a currentUser que esta dentro de user para extraer algunas de sus propiedades
     const { currentUser } = useSelector((state) => state.user);
+    const { currentVideo } = useSelector((state) => state.video);
 
     // Se crean los estados para almacenar la informacion que se va a extraer del servidor
     const [comments, setComments] = useState([]);
@@ -108,21 +109,21 @@ function Comments({ videoId }) {
     // Se crea un estado q habilita el boton cuando se esccribe algo en el input
     const [inputValue, setInputValue] = useState('');
 
+    // Se encarga de traer y actualizar el estado de los comentarios
+    const fetchComments = async () => {
+        try {
+            // Se traen los comentarios del video usando el id del video
+            const res = await axios.get(`/comments/${videoId}`);
+
+            // Se almacena la info en nuestro estado
+            // .data hace referencia a la propiedad de un objeto
+            setComments(res.data);
+        } catch (err) { };
+    };
+
     // El useEffect se ejecutara cada vez que se cambie de id de video
     useEffect(() => {
-        const fetchComments = async () => {
-            try {
-                // Se traen los comentarios del video usando el id del video
-                const res = await axios.get(`/comments/${videoId}`);
-
-                // Se almacena la info en nuestro estado
-                // .data hace referencia a la propiedad de un objeto
-                setComments(res.data);
-            } catch (err) { };
-        };
-
         fetchComments();
-
     }, [videoId]);
 
     // Cuando se da click en el input se muestra el div
@@ -138,10 +139,22 @@ function Comments({ videoId }) {
     // Cierra el input
     const handleBCancel = () => {
         setShowDiv(false);
+        // Se limpia el input
+        setInputValue("");
     };
 
+    // Esta envia el comentario realizado al server y actualiza el estado
     const handleComment = async () => {
-
+        // Se crea un objeto que almacena las propiedades del obj que se nesecita para crear un comentario
+        const commentObj = { "desc": inputValue, "videoId": currentVideo._id };
+        // Se envia el obj creado al server
+        await axios.post("/comments", { ...commentObj });
+        // Se actualiza el estado de comentarios
+        fetchComments();
+        // Se limpia el input
+        setInputValue("");
+        // Se cierra el modal
+        setShowDiv(false);
     };
 
     return (
@@ -150,7 +163,7 @@ function Comments({ videoId }) {
                 {currentUser ?
                     <>
                         <Avatar src={currentUser.img} />
-                        <Input type="text" onChange={handleInputChange} onClick={handleInput} placeholder='Add a comment...' />
+                        <Input type="text" onChange={handleInputChange} onClick={handleInput} placeholder='Add a comment...' value={inputValue} />
                     </>
                     :
                     <StyledLink to="/Signin">
@@ -175,7 +188,7 @@ function Comments({ videoId }) {
                 ))
             }
         </Container>
-    )
+    );
 };
 
 export default Comments;

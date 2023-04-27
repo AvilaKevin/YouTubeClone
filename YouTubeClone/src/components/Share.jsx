@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FacebookShareButton, FacebookIcon, WhatsappShareButton, WhatsappIcon, TwitterShareButton, TwitterIcon } from 'react-share';
 import { useSelector } from 'react-redux';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const Container = styled.div`
   width: 100%;
@@ -35,7 +36,7 @@ const ShareIcons = styled.div`
     text-align: center;
 `;
 
-const Close = styled.div`
+const Exit = styled(ClearIcon)`
   position: absolute;
   top: 10px;
   right: 10px;
@@ -92,7 +93,7 @@ function Share({ setIsSharing }) {
     return (
         <Container>
             <Wrapper>
-                <Close onClick={() => setIsSharing(false)}>X</Close>
+                <Exit onClick={() => setIsSharing(false)} />
                 <Title>Share</Title>
                 <ShareIcons>
                     {/* De esta forma agregamos los iconos para compartir */}
