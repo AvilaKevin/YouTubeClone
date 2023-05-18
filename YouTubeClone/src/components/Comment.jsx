@@ -126,8 +126,11 @@ function Comment({ comment, fetchComments }) {
             <OptionsContainer>
                 <BCommentOptions onClick={handleOptions} />
                 {
-                    currentUser._id === comment.userId ?
-                        showDiv && <Options onClick={handleDelete}><DeleteOutlinedIcon />Delete</Options>
+                    currentUser ?
+                        currentUser._id === comment.userId ?
+                            showDiv && <Options onClick={handleDelete}><DeleteOutlinedIcon />Delete</Options>
+                            :
+                            showDiv && <Options><OutlinedFlagTwoToneIcon />Report</Options>
                         :
                         showDiv && <Options><OutlinedFlagTwoToneIcon />Report</Options>
                 }

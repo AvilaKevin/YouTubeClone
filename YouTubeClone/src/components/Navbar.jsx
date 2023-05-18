@@ -73,11 +73,21 @@ const Avatar = styled.img`
     background-color: #999;
 `;
 
+const UploadVideo = styled(VideoCallOutlinedIcon)`
+    cursor: pointer;
+`;
+
 const Navbar = () => {
     const navigate = useNavigate()
     const [open, setOpen] = useState(false);
     const [q, setQ] = useState("");
     const { currentUser } = useSelector((state) => state.user);
+
+    const handleKey = (e) => {
+        if (e.key === 'Enter') {
+            navigate(`/search?q=${q}`)
+        }
+    }
     return (
         <>
             <Container>
@@ -86,12 +96,13 @@ const Navbar = () => {
                         <Input
                             placeholder="Search"
                             onChange={(e) => setQ(e.target.value)}
+                            onKeyPress={handleKey}
                         />
                         <SearchOutlinedIcon onClick={() => navigate(`/search?q=${q}`)} />
                     </Search>
                     {currentUser ? (
                         <User>
-                            <VideoCallOutlinedIcon onClick={() => setOpen(true)} />
+                            <UploadVideo onClick={() => setOpen(true)} />
                             <Avatar src={currentUser.img} />
                             {currentUser.name}
                         </User>

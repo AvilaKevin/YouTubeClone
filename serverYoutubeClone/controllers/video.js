@@ -91,19 +91,10 @@ export const addView = async (req, res, next) => {
     }
 };
 
-// export const random = async (req, res, next) => {
-//     try {
-//         // Se utiliza el metodo aggregate el cual va acompa;ado por la propiedad sample que trae videos random en este caso y se especifica la cantidad de videos en size.
-//         // las querys se hacen utilizando comandos de mongodb
-//         const videos = await Video.aggregate([{ $sample: { size: 40 } }]);
-//         res.status(200).json(videos)
-//     } catch (err) {
-//         next(err);
-//     }
-// };
-
 export const random = async (req, res, next) => {
     try {
+        // Se utiliza el metodo aggregate el cual va acompa;ado por la propiedad sample que trae videos random en este caso y se especifica la cantidad de videos en size.
+        // las querys se hacen utilizando comandos de mongodb
         const videos = await Video.aggregate([{ $sample: { size: 40 } }]);
         res.status(200).json(videos);
     } catch (err) {
