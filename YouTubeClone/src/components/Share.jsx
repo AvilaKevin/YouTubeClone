@@ -78,9 +78,7 @@ const Copy = styled.button`
     font-weight: 500;
 `;
 
-// Se recibe la prop de este modo pa poderla manipular mas adelante
 function Share({ setIsSharing }) {
-    // Pa validar en que video se esta actualmente se hace uso de redux el cual accede al objeto video y nos trae esa informacion
     const { currentVideo } = useSelector((state) => state.video);
 
     const videoLink = `http://localhost:3000/video/${currentVideo._id}`;
@@ -96,13 +94,10 @@ function Share({ setIsSharing }) {
                 <Exit onClick={() => setIsSharing(false)} />
                 <Title>Share</Title>
                 <ShareIcons>
-                    {/* De esta forma agregamos los iconos para compartir */}
                     <div>
                         <FacebookShareButton
-                            // En este campo va la url que deseamos compartir
                             url={`http://localhost:3000/video/${currentVideo._id}`}
                         >
-                            {/* Aqui se personaliza el estilo del boton */}
                             <FacebookIcon size={60} round />
                         </FacebookShareButton>
                         <p>Facebook</p>

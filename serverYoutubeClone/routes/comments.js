@@ -4,9 +4,13 @@ import { verifyToken } from "../verifyToken.js";
 
 const router = express.Router();
 
+// ADD A COMMENT
 router.post("/", verifyToken, addComment)
-// Se utiliza id pa identificar q elemento a borrar
+
+// DELETE COMMENT
 router.delete("/:id", verifyToken, deleteComment)
+
+// GET COMMENTS
 router.get("/:videoId", verifyToken, getComments)
 
 export default router;

@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 
-// Al tener unique no se puede tener otro usuario con el mismo nombre
-
 const UserSchema = new mongoose.Schema(
     {
         name: {

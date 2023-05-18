@@ -24,8 +24,6 @@ const rootReducer = combineReducers({ user: userReducer, video: videoReducer });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-// El estore almacenara los datos del usuario para poderlo utilizar mas facilmente
-// Basicamente esto crea una conexion con los estados que se crearon en el slice para poder usarlos facilmente.
 export const store = configureStore({
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>

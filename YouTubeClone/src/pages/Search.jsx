@@ -11,7 +11,6 @@ const Container = styled.div`
 `;
 
 const Search = () => {
-    // Esto almacenara la informacion consultada de nuestra bd
     const [videos, setVideos] = useState([]);
     const query = useLocation().search;
 
@@ -22,16 +21,6 @@ const Search = () => {
         };
         fetchVideos();
     }, [query]);
-
-    // useEffect(() => {
-    //     const fetchVideos = async () => {
-    //         // Se hace la consulta por medio de nuestra api a nuestra bd
-    //         const res = await axios.get(`/videos/search${query}`)
-    //         setVideos(res.data)
-    //     }
-
-    //     fetchVideos();
-    // }, [query]);
 
     return (
         <Container>

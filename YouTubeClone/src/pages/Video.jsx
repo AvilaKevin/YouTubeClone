@@ -129,38 +129,20 @@ const StyledLink = styled(Link)`
 
 
 const Video = () => {
-    // Para acceder a las propiedades de nuestro estado, se hace uso de useSelector, en este caso se esta accediendo a currentUser que esta dentro de user para extraer algunas de sus propiedades
     const { currentUser } = useSelector((state) => state.user);
     const { currentVideo } = useSelector((state) => state.video);
-
-    // usamos dispatch para aplicar nuestras acciones
     const dispatch = useDispatch();
-
-    // este hook extraera el id del video y lo llamara.
-    // .pathname.split("/")[2] con esto extraemos unicamente el id del video
     const path = useLocation().pathname.split("/")[2];
-
-    // Se crean los estados para almacenar la informacion que se va a extraer del servidor
     const [channel, setChannel] = useState({});
-
-    // Se crea un estado para la apertura del modal del boton share
     const [isSharing, setIsSharing] = useState(false);
 
-
-    // El useEffect se ejecutara cada vez que se cambie de id de video
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Se busca el video por el id
                 const videoRes = await axios.get(`/videos/find/${path}`);
-
-                // Se extrae el usuario del objeto video
                 const channelRes = await axios.get(
                     `/users/find/${videoRes.data.userId}`
                 );
-
-                // Se almacena la info en nuestro estado
-                // .data hace referencia a la propiedad de un objeto
                 setChannel(channelRes.data);
                 dispatch(fetchSuccess(videoRes.data))
             } catch (err) {
@@ -172,9 +154,7 @@ const Video = () => {
     }, [path, dispatch]);
 
     const handleLike = async () => {
-        // Se envia la respuesta al server donde captura el id del video y almacena el id del usuario en las propiedades del video
         await axios.put(`/users/like/${currentVideo._id}`);
-        // ejecutamos la funcion que almacenamos en nuestro estado global
         dispatch(like(currentUser._id));
     };
 
@@ -184,20 +164,14 @@ const Video = () => {
     };
 
     const handleSub = async () => {
-        // Si dentro de la propiedad subscribedUsers de nuestro estado currentUser esta el id del canal, entonces:
         currentUser.subscribedUsers.includes(channel._id)
             ? await axios.put(`/users/unsub/${channel._id}`)
             : await axios.put(`/users/sub/${channel._id}`);
-        // ejecutamos la funcion que almacenamos en nuestro estado global
         dispatch(subscription(channel._id));
     };
 
-    // Si no se reconoce ninguna propiedad de currentVideo como videoUrl u otra debo borrar el render y ejecutar el clg
-    // console.log(currentVideo.videoUrl)
-
 
     return (
-        // Se creo un contenedor padre de este modo para poder renderizar el modal del boton share
         <>
             <Container>
                 <Content>
@@ -269,8 +243,6 @@ const Video = () => {
                 <Recommendation tags={currentVideo.tags} />
 
             </Container>
-            {/* Se situa en esta linea el modal del boton share ya que es un componente que se superpone en video */}
-            {/* Se pasa como prop el estado del modal para poder cerrarlo dentro del componente */}
             {isSharing && <Share setIsSharing={setIsSharing} />}
         </>
     )

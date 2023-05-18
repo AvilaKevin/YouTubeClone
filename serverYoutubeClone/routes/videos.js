@@ -1,27 +1,31 @@
 import express from "express";
-import { addVideo, deleteVideo, getByTag, getVideo, random, search, sub, trend, updateVideo } from "../controllers/video.js";
+import { addVideo, getByTag, getVideo, random, search, sub, trend } from "../controllers/video.js";
 import { verifyToken } from "../verifyToken.js";
 
 const router = express.Router();
 
+// ADD VIDEO
 router.post("/", verifyToken, addVideo);
-// El ID es del video
-// el metodo put actualiza la informacion
-router.put("/:id", verifyToken, updateVideo);
-// El ID es del video
-router.delete("/:id", verifyToken, deleteVideo);
-// El ID es del video
+
+// GET VIDEO
 router.get("/find/:id", getVideo);
-// Esto actualiza los views de los videos
+
+// ADD VIDEO
 router.put("/view/:id", addVideo);
+
+// TREND VIDEOS
 router.get("/trend", trend);
-// Esto mostrara los videos en la home page 
+
+// RANDOM VIDEOS
 router.get("/random", random);
-// Show subscribe chanel videos
+
+// SUBSCRIBED VIDEOS
 router.get("/sub", verifyToken, sub);
-// 
+
+// GET BY TAG VIDEOS
 router.get("/tags", getByTag);
 
+// SEARCH VIDEOS
 router.get("/search", search);
 
 export default router;

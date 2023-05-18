@@ -81,25 +81,19 @@ const Options = styled.div`
 `;
 
 function Comment({ comment, fetchComments }) {
-    // Se crean los estados para almacenar la informacion que se va a extraer del servidor
     const [channel, setChannel] = useState({});
-
-    // Estado del div
     const [showDiv, setShowDiv] = useState(false);
-
     const { currentUser } = useSelector((state) => state.user);
 
     useEffect(() => {
         const fetchComment = async () => {
-            // Se busca el id del usuario dentro de las propiedades de los comentarios
             const res = await axios.get(`/users/find/${comment.userId}`);
             setChannel(res.data);
         };
-
         fetchComment();
     }, [comment.userId]);
 
-    // Cierra y muestra las opciones del comentario
+
     const handleOptions = () => {
         if (showDiv === true) {
             setShowDiv(false)
@@ -108,7 +102,7 @@ function Comment({ comment, fetchComments }) {
         }
     };
 
-    // Borra el comentario
+    // DELETE A COMMENT
     const handleDelete = async () => {
         await axios.delete(`/comments/${comment._id}`);
         fetchComments()

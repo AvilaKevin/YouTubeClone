@@ -1,35 +1,22 @@
 import express from "express";
-import { deleteUser, dislike, getUser, like, subscribe, unsubscribe, update } from "../controllers/user.js";
+import { dislike, getUser, like, subscribe, unsubscribe } from "../controllers/user.js";
 import { verifyToken } from "../verifyToken.js";
 
 const router = express.Router();
 
-// //PRUEBA
-// router.get("/test", test)
-
-//update user
-// Se usa el metodo put para actualizar la informacion de nuestro usuario
-// la ruta sera el id de nuestro usuario para poder actualizar la informacion
-// verifyToken es un middleware que validara nuestro id y luego de eso actualizara la informacion
-router.put("/:id", verifyToken, update);
-
-//delete user
-router.delete("/:id", verifyToken, deleteUser);
-
-//get a user
+// GET A USER
 router.get("/find/:id", getUser)
 
-//subscribe a user
-// En este caso el id sera del canal de youtube
+// SUBSCRIBE
 router.put("/sub/:id", verifyToken, subscribe);
 
-//unsubscribe a user
+// UNSUBSCRIBE
 router.put("/unsub/:id", verifyToken, unsubscribe);
 
-//like a video
+// LIKE VIDEO
 router.put("/like/:videoId", verifyToken, like);
 
-//dislike a video
+// DISLIKE VIDEO
 router.put("/dislike/:videoId", verifyToken, dislike);
 
 export default router;

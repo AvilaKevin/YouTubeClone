@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/userSlice';
 
-// Icons
+// ICONS
 import YourVideosLogo from '../img/YouTubeLogo.png'
 import HomeIcon from '@mui/icons-material/Home';
 import ExploreOutlinedIcon from "@mui/icons-material/ExploreOutlined";
@@ -96,7 +96,6 @@ const Title = styled.h2`
 
 const Menu = ({ darkMode, setDarkMode }) => {
     const { currentUser } = useSelector((state) => state.user);
-    // Se inicializa nuestra funcion dispatch para poder hacer uso de los estados de nuestro store
     const dispatch = useDispatch();
 
     const handleLogOut = () => {

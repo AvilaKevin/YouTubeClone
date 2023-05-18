@@ -56,22 +56,13 @@ const Info = styled.div`
 
 
 const Card = ({ type, video }) => {
-    // Se crea un usestate para capturar y almacenar la informacion de nuestra api.
     const [channel, setChannel] = useState({});
 
-    // // Se crea un use efect pa q se ejecute una funcion cuando se refresque la pg y ejecute la funcion de capturar la informacion del canal.
-
     useEffect(() => {
-        // Esta funcion captura los datos de nuestra api y los pasa a nuestro estado del componente
-        // se crea la funcion de esta manera ya que useEffect no permite poner async
         const fetchChannel = async () => {
-            // con la biblioteca de axios se solicita la informacion de nuestra api
-            // se extrae el id del usuario con video.userId para recogerlo como parametro
             const res = await axios.get(`/users/find/${video.userId}`);
-            // Se almacena la informacion en el estado.
             setChannel(res.data);
         };
-        // Se ejecuta nuestra funcion
         fetchChannel();
     }, [video.userId]);
 

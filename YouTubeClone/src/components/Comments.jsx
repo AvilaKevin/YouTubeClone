@@ -96,64 +96,41 @@ const BCancel = styled.button`
 `;
 
 function Comments({ videoId }) {
-    // Para acceder a las propiedades de nuestro estado, se hace uso de useSelector, en este caso se esta accediendo a currentUser que esta dentro de user para extraer algunas de sus propiedades
     const { currentUser } = useSelector((state) => state.user);
     const { currentVideo } = useSelector((state) => state.video);
-
-    // Se crean los estados para almacenar la informacion que se va a extraer del servidor
     const [comments, setComments] = useState([]);
-
-    // Se crea un estado que muestra el div
     const [showDiv, setShowDiv] = useState(false);
-
-    // Se crea un estado q habilita el boton cuando se esccribe algo en el input
     const [inputValue, setInputValue] = useState('');
 
-    // Se encarga de traer y actualizar el estado de los comentarios
     const fetchComments = async () => {
         try {
-            // Se traen los comentarios del video usando el id del video
             const res = await axios.get(`/comments/${videoId}`);
-
-            // Se almacena la info en nuestro estado
-            // .data hace referencia a la propiedad de un objeto
             setComments(res.data);
         } catch (err) { };
     };
 
-    // El useEffect se ejecutara cada vez que se cambie de id de video
     useEffect(() => {
         fetchComments();
     }, [videoId]);
 
-    // Cuando se da click en el input se muestra el div
     const handleInput = () => {
         setShowDiv(true);
     };
 
-    // Cuando se escribe algo en el input se habilita el boton
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
     };
 
-    // Cierra el input
     const handleBCancel = () => {
         setShowDiv(false);
-        // Se limpia el input
         setInputValue("");
     };
 
-    // Esta envia el comentario realizado al server y actualiza el estado
     const handleComment = async () => {
-        // Se crea un objeto que almacena las propiedades del obj que se nesecita para crear un comentario
         const commentObj = { "desc": inputValue, "videoId": currentVideo._id };
-        // Se envia el obj creado al server
         await axios.post("/comments", { ...commentObj });
-        // Se actualiza el estado de comentarios
         fetchComments();
-        // Se limpia el input
         setInputValue("");
-        // Se cierra el modal
         setShowDiv(false);
     };
 
@@ -173,7 +150,6 @@ function Comments({ videoId }) {
                         </CommentLink>
                     </StyledLink>}
             </NewComment>
-            {/* Si showDiv es true entonces se renderiza el componente, de lo contrario no se renderiza nada */}
             {showDiv && <FocusComment>
                 <div></div>
                 <div>

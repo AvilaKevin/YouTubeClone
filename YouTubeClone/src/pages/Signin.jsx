@@ -3,9 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useDispatch } from "react-redux";
 import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice.js";
-// Se importan los componentes para crear la autenticacion con google
 import { auth, provider } from "../firebase.js";
-// se importa una libreria para abrir un popup de google
 import { signInWithPopup } from "firebase/auth"
 
 const Container = styled.div`
@@ -92,17 +90,12 @@ const Signin = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [logError, setlogError] = useState(false);
-    // Se inicializa nuestra funcion dispatch para poder hacer uso de los estados de nuestro store
     const dispatch = useDispatch()
 
-    // Se crea una funcion que se encarga de validar la inforamcion de logeo
     const handleLogin = async (e) => {
-        // Esto evita que se refresque la pg al darle click a nuestro boton
         e.preventDefault();
-        // Se ejecuta el estado como propiedad de nuestra funcion dispatch
         dispatch(loginStart());
         try {
-            // Se envia la informacion capturada a la api
             const res = await axios.post("/auth/signin", { name, password });
             dispatch(loginSuccess(res.data));
         } catch (err) {
@@ -112,10 +105,8 @@ const Signin = () => {
     };
 
     const signInWithGoogle = () => {
-        // se llama la funcion de nuestra store con dispatch
         dispatch(loginStart())
         signInWithPopup(auth, provider)
-            // se captura la informacion dentro del result donde podemos acceder a esta
             .then((result) => {
                 axios.post("/auth/google", {
                     name: result.user.displayName,
