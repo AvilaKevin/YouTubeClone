@@ -22,6 +22,7 @@ Web application with the main functions of YouTube such as:
 ![scrnli_5_18_2023_6-52-27 PM](https://github.com/AvilaKevin/YouTubeClone/assets/70970550/4589e73b-9ac9-4d3b-bb6f-fd0212fce625)
 ![scrnli_5_18_2023_6-53-44 PM](https://github.com/AvilaKevin/YouTubeClone/assets/70970550/86259a07-dd06-458e-b77a-8c2156e71dd3)
 ![scrnli_5_18_2023_6-54-42 PM](https://github.com/AvilaKevin/YouTubeClone/assets/70970550/2275231a-5091-462a-a00d-05f95d91c5ef)
+![scrnli_5_18_2023_7-20-17 PM (1)](https://github.com/AvilaKevin/YouTubeClone/assets/70970550/d1ec9a43-de06-48db-a196-0b5231b90da8)
 
 
 ------------
